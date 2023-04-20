@@ -242,6 +242,28 @@
    * Initiate Pure Counter 
    */
   new PureCounter();
+  /*PHP script*/
+  $(document).ready(function() {
+    $('#contact-form').submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var url = form.attr('action') || 'contact.php';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            dataType: 'json',
+            success: function(data) {
+                $('#alert-msg').html('<div class="alert alert-success">' + data.message + '</div>');
+                $('#contact-form')[0].reset();
+            },
+            error: function(data) {
+                $('#alert-msg').html('<div class="alert alert-danger">' + data.responseJSON.message + '</div>');
+            }
+        });
+    });
+});
+
 
 })()
 
